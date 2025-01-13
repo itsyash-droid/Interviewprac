@@ -1,4 +1,16 @@
 
+#include <bits/stdc++.h>
+using namespace std;
+
+class SinglyLinkedListNode { 
+    public: int data;
+    SinglyLinkedListNode *next;
+    SinglyLinkedListNode(int node_data) { 
+    this->data = node_data; 
+    this->next = nullptr; 
+    } 
+    };
+    
 SinglyLinkedListNode* removeDuplicates(SinglyLinkedListNode* llist) {
     if (!llist) return nullptr; // Handle empty list
 
@@ -15,4 +27,22 @@ SinglyLinkedListNode* removeDuplicates(SinglyLinkedListNode* llist) {
     }
 
     return llist;
+}
+
+bool has_cycle(SinglyLinkedListNode *head) {
+    if (head == nullptr) return false;
+
+    SinglyLinkedListNode *slow = head;
+    SinglyLinkedListNode *fast = head;
+
+    while (fast != nullptr && fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
+
+        if (slow == fast) {
+            return true;
+        }
+    }
+
+    return false;
 }
