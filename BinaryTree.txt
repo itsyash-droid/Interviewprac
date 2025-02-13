@@ -1,0 +1,259 @@
+BASIC:
+1.What is a binary tree? How is it different from a binary search tree (BST)?
+A binary tree data structure is hierarcial ds in which each node has atmost two nodes refered as left and right childs. It is commonly used in computer science for effeienct storage and retrieval of data with various operations.
+A binary search tree ds is also hierarchical data structure where the left child values are smaller values and the right child has greater values with conditions:
+ -> right subtree of a node contains only nodes with keys greater than the node's key.
+ -> left subtree of a node contains only nodes with keys smaller than the node's key.
+ -> left and right subtree also must be a bst.
+ -> no duplicates.
+
+
+2.How do you implement a binary tree in C++ using structures and classes?
+#include <bits/stdc++.h>
+using namespace std;
+
+struct TreeNode{
+    int data;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int value):data(value), left(nullptr), right(nullptr) {}
+}
+
+we can write code for other operations.
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Node{
+    public:
+        int data;
+        Node* left;
+        Node* right;
+
+        Node(int val):data(val), left(nullptr), right(nullptr) {}
+};
+
+following with the other operations.
+
+
+3.Write a C++ program to traverse a binary tree using Inorder, Preorder, and Postorder traversal (recursive and iterative).
+RECURSIVE:
+PreOrder method:
+    void preOrder(Node* root){
+        if(root == NULL){
+            return;
+        }
+        cout<<root->data<<" ";
+        preOrder(root->left);
+        preOrder(root->right);
+    }
+
+PostOrder method:
+    void postOrder(Node* root){
+        if(root==NULL){
+            return;
+        }
+        postOrder(root->left);
+        postOrder(root->right);
+        cout<<root->data<<" ";
+    }
+
+InOrder method:
+    void inOrder(Node* root){
+        if(root==NULL){
+            return;
+        }
+        inOrder(root->left);
+        cout<<root->data<<" ";
+        inOrder(root->right);
+    }
+
+
+4.what is level order traversal?
+void levelOrder(Node *root){
+    if(root == NULL){
+        return;
+    }
+
+    queue<Node*> *q;
+    q.push(root);
+    while(!q.empty()){
+        Node *current = q.front();
+        q.pop();
+        cout<<current->data;
+        
+        if(!root->left==nullPtr){
+            q.push(current->left);
+        } 
+        if(!root->right==nullPtr){
+            q.push(current->right);
+        }
+    }
+}
+
+
+5.Write a C++ function to find the height of a binary tree.
+int height(Node *root){
+    if(root == nullptr) return 0;
+
+    int leftHeight = height(root->left);
+    int rightHeight = height(root->right);
+
+    return max(leftHeight,rightHeight);
+}
+
+How do you find the number of nodes in a binary tree?
+declare a variable count as a global variable.
+ int numberOfNodes(TreeNode* root){
+    if(root == nullptr)
+        return 0;
+    ::count++;
+    numberOfNodes(root->left);
+    numberOfNodes(root->right);
+
+    return ::count;
+ }
+
+
+Write a function to find the maximum and minimum value in a binary tree.
+void maxmin(TreeNode* root,int &minNode,int &maxNode){
+    if(root == nullptr)
+        return;
+    
+    minNode = min(root->data,minNode);
+    maxNode = max(root->data,maxNode);
+
+    maxmin(root->left,minNode,maxNode);
+    maxmin(root->right,minNode,maxNode);
+}
+
+
+What are full, complete, and perfect binary trees?
+
+
+How do you insert a node in a binary tree?
+#include <bits/stdc++.h>
+
+using namespace std;
+
+Node* insertion(Node* root,int data){
+    if(!root){
+        root = new TreeNode(data);
+        return root;
+    }
+
+    queue<Node*> q;
+    q.push(root);
+    TreeNode* temp = nullptr;
+    while(!q.empty()){
+        temp = q.front();
+        q.pop();
+
+        if(!temp->left){
+            temp->left = new TreeNode(data);
+        }
+        else{
+            q.push(temp->left);
+        }
+        if(!temp->right){
+            temp->right = new TreeNode(data);
+        }
+        else{
+            q.push(temp->right);
+        }
+    }
+    return root;
+}
+
+
+How do you delete a node in a binary tree?
+
+
+Intermediate Binary Tree Questions
+Write a C++ function to find the diameter of a binary tree.
+
+
+Implement a function to check if a binary tree is balanced.
+
+
+How do you check if two binary trees are identical?
+bool comparingBT(TreeNode* root1, TreeNode* root2) {
+    if (root1 == nullptr && root2 == nullptr) return true;
+    
+    if (root1 == nullptr || root2 == nullptr) return false;
+
+    return (root1->data == root2->data) &&
+           comparingBT(root1->left, root2->left) &&
+           comparingBT(root1->right, root2->right);
+}
+
+
+Find the Lowest Common Ancestor (LCA) of two nodes in a binary tree.
+
+
+Convert a binary tree into its mirror image.
+
+
+Find the left and right view of a binary tree.
+
+
+Check if a given binary tree is symmetric.
+
+
+Print all root-to-leaf paths in a binary tree.
+
+
+Find the sum of all nodes in a binary tree.
+
+
+Print the boundary traversal of a binary tree.
+
+
+Advanced Binary Tree Questions
+Serialize and deserialize a binary tree.
+
+
+Find the vertical order traversal of a binary tree.
+
+
+Convert a binary tree to a doubly linked list.
+
+
+Find the maximum path sum in a binary tree.
+
+
+Check if a binary tree is a subtree of another binary tree.
+
+
+Find the kth smallest and kth largest element in a BST.
+
+
+Find the distance between two nodes in a binary tree.
+
+
+Find the zigzag level-order traversal of a binary tree.
+
+
+Find the sum of all nodes at the k-th level of a binary tree.
+
+
+Count the number of nodes in a complete binary tree efficiently.
+
+
+Bonus (Competitive Programming & Optimization)
+Find the diameter of a binary tree in O(N) time.
+Use Morris Traversal for in-order traversal without recursion or a stack.
+Check if a binary tree is a BST (using inorder traversal).
+Find the sum of nodes at the deepest level.
+Convert a BST into a balanced BST.
+Would you like C++ implementations for any of these questions? 🚀
+
+
+
+
+
+
+
+
+
+
