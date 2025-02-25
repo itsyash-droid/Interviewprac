@@ -15,7 +15,7 @@ void preOrder(TreeNode *root) {
         if(root == NULL){
             return;
         }
-        std::cout <<root->data <<endl;
+        cout <<root->data <<endl;
         preOrder(root->left);
         preOrder(root->right);
         
@@ -115,7 +115,7 @@ TreeNode* insertion(TreeNode* root, int data){
     return root;
 }
 
-bool comparingBT(TreeNode* root1, TreeNode* root2) {
+bool comparingBT(TreeNode* root1, TreeNode* root2){
 
     if (root1 == nullptr && root2 == nullptr) return true;
     
@@ -126,6 +126,118 @@ bool comparingBT(TreeNode* root1, TreeNode* root2) {
            comparingBT(root1->right, root2->right);
 }
 
+TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q){
+    if(!root || p == root || q == root) return root;
+
+    TreeNode* left = lowestCommonAncestor(root->left,p,q);
+    TreeNode* right = lowestCommonAncestor(root->right,p,q);
+
+    if (left && right)
+        return root;
+
+    return left ? left : right;
+}
+
+TreeNode* minNode(TreeNode* root){
+    while(root->left){
+        root = root->left;
+    }
+    return root;
+}
+
+TreeNode* deleteNode(TreeNode* root,int key){
+    if(!root) return root;
+
+    if(key < root->data){
+        root->left = deleteNode(root->left, key);
+    }
+    else if(key > root->data){
+        root->right = deleteNode(root->right, key);
+    }
+    else{
+        if(!root->left && !root->right){
+            delete root;
+            return nullptr;
+        }
+        else if(!root->left){
+            TreeNode* temp = root->right;
+            delete root;
+            return temp;
+        }
+        else if(!root->right){
+            TreeNode* temp = root->left;
+            delete root;
+            return temp;
+        }
+        else{
+            TreeNode* temp = minNode(root->right);
+            root->data = temp->data;
+            root->right = deleteNode(root->right, temp->data);
+        }
+    }
+    return root;
+}
+
+vector<int> leftView(TreeNode* root) {
+    if (!root) return {};
+
+    vector<int> result;
+    queue<pair<TreeNode*, int>> q;
+    q.push({root, 0});
+    map<int, int> levelMap;
+
+    while (!q.empty()) {
+        auto [root, level] = q.front();
+        q.pop();
+
+        if (levelMap.find(level) == levelMap.end()) {
+            levelMap[level] = root->data;
+            result.push_back(root->data);
+        }
+
+        if (root->left) q.push({root->left, level + 1});
+        if (root->right) q.push({root->right, level + 1});
+    }
+
+    return result;
+}
+
+// Function to get the Right View of the Binary Tree
+vector<int> rightView(Node* root) {
+    if (!root) return {};
+
+    vector<int> result;
+    queue<pair<Node*, int>> q;
+    q.push({root, 0});
+    map<int, int> lastNodeAtLevel;
+
+    while (!q.empty()) {
+        auto [node, level] = q.front();
+        q.pop();
+
+        lastNodeAtLevel[level] = node->data;
+
+        if (node->left) q.push({node->left, level + 1});
+        if (node->right) q.push({node->right, level + 1});
+    }
+
+    for (auto& pair : lastNodeAtLevel) {
+        result.push_back(pair.second);
+    }
+
+    return result;
+}
+
+int sumAll(TreeNode* root,int &sum){
+    if(root == nullptr){
+        return 0;
+    }
+    sum += root->data;
+    sumAll(root->left, sum);
+    sumAll(root->right, sum);
+
+    return sum;
+}
 
 int main() {
     // Creating a simple binary tree
@@ -148,7 +260,7 @@ int main() {
     //int maxVal = numeric_limits<int>::min();
     
     // Compute minimum and maximum
-    cout<<comparingBT(root,roott,x);
+    cout<<comparingBT(root,roott);
     
     //cout << "Minimum data is: " << minVal << endl;
     //cout << "Maximum data is: " << maxVal << endl;

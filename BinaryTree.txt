@@ -132,10 +132,6 @@ What are full, complete, and perfect binary trees?
 
 
 How do you insert a node in a binary tree?
-#include <bits/stdc++.h>
-
-using namespace std;
-
 Node* insertion(Node* root,int data){
     if(!root){
         root = new TreeNode(data);
@@ -167,6 +163,45 @@ Node* insertion(Node* root,int data){
 
 
 How do you delete a node in a binary tree?
+find minNode(Node* root){
+    while(root->left){
+        root = root->left;
+    }
+    return root;
+}
+
+Node* deleteNode(Node* root,int key){
+    if(!root) return root;
+
+    if(key < root->data){
+        root->left = deleteNode(root->left, key);
+    }
+    else if(key > root->data){
+        root->right = deleteNode(root->right, key);
+    }
+    else{
+        if(!root->left && !root->right){
+            delete root;
+            return nullptr;
+        }
+        else if(!root->left){
+            Node* temp = root->right;
+            delete root;
+            return temp;
+        }
+        else if(!root->right){
+            Node* temp = root->left;
+            delete root;
+            return temp;
+        }
+        else{
+            Node* temp = findMin(root->right);
+            root->data = temp->data;
+            root->right = deleteNode(root->right, temp->data);
+        }
+    }
+    return root;
+}
 
 
 Intermediate Binary Tree Questions
@@ -189,12 +224,72 @@ bool comparingBT(TreeNode* root1, TreeNode* root2) {
 
 
 Find the Lowest Common Ancestor (LCA) of two nodes in a binary tree.
+Node* lowestCommonAncestor(Node* root, Node* p,Node* q){
+    if(!root || p == root || q == root) return root;
+
+    Node* left = lowestCommonAncestor(root->left, p, q);
+    Node* right = lowestCommonAncestor(root->right, p, q);
+
+    if(left && right){
+        return root;
+    }
+    return left ? left : right;
+}
 
 
 Convert a binary tree into its mirror image.
 
 
 Find the left and right view of a binary tree.
+vector<int> leftView(Node* root) {
+    if (!root) return {};
+
+    vector<int> result;
+    queue<pair<Node*, int>> q;
+    q.push({root, 0});
+    map<int, int> levelMap;
+
+    while (!q.empty()) {
+        auto [node, level] = q.front();
+        q.pop();
+
+        if (levelMap.find(level) == levelMap.end()) {
+            levelMap[level] = node->data;
+            result.push_back(node->data);
+        }
+
+        if (node->left) q.push({node->left, level + 1});
+        if (node->right) q.push({node->right, level + 1});
+    }
+
+    return result;
+}
+
+// Function to get the Right View of the Binary Tree
+vector<int> rightView(Node* root) {
+    if (!root) return {};
+
+    vector<int> result;
+    queue<pair<Node*, int>> q;
+    q.push({root, 0});
+    map<int, int> lastNodeAtLevel;
+
+    while (!q.empty()) {
+        auto [node, level] = q.front();
+        q.pop();
+
+        lastNodeAtLevel[level] = node->data;
+
+        if (node->left) q.push({node->left, level + 1});
+        if (node->right) q.push({node->right, level + 1});
+    }
+
+    for (auto& pair : lastNodeAtLevel) {
+        result.push_back(pair.second);
+    }
+
+    return result;
+}
 
 
 Check if a given binary tree is symmetric.
@@ -204,6 +299,16 @@ Print all root-to-leaf paths in a binary tree.
 
 
 Find the sum of all nodes in a binary tree.
+int sumAll(TreeNode* root,int &sum){
+    if(root == nullptr){
+        return 0;
+    }
+    sum += root->data;
+    sumAll(root->left,sum);
+    sumAll(root->right,sum);
+
+    return sum;
+}
 
 
 Print the boundary traversal of a binary tree.
