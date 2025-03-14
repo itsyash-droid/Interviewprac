@@ -3,6 +3,10 @@ a[n] is the arrivalTimes of respective students
 arrivalTime must be lessThan or equal to 0
 if the students arrived on time or before is greater than the thershold (NO) class is not canceled and viceversa*/
 
+/*key-concepts: Lambda-functions:
+syntax: [](parameters){retrun-type}
+        [&]-byREF and [=]-byVAL.*/
+        
 #include <bits/stdc++.h>
 #include <vector>
 #include <iostream>

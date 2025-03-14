@@ -1,3 +1,5 @@
+/*Beautiful numbers are defined as numbers where |i - reverse(i)| is evenly divisible by k*/
+
 #include <iostream>
 #include <cmath>
 

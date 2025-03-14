@@ -206,9 +206,43 @@ Node* deleteNode(Node* root,int key){
 
 Intermediate Binary Tree Questions
 Write a C++ function to find the diameter of a binary tree.
+int diameter(TreeNode* root,int& maxi){
+    if(!root){
+        return 0;
+    }
 
+    int LH = diameter(root->left,maxi);
+    int RH = diameter(root->right,maxi);
+
+    maxi = max(maxi,LH+RH);
+
+    return 1 + max(LH,RH);
+}
+
+int diameterOfBt(TreeNode* root){
+   int maxi = INT_MIN;
+   diameter(root,maxi);
+   return maxi;
+}
 
 Implement a function to check if a binary tree is balanced.
+int checkHeight(TreeNode* root) {
+    if (!root) return 0;
+
+    int leftHeight = checkHeight(root->left);
+    if (leftHeight == -1) return -1;  // If left subtree is unbalanced, propagate -1
+
+    int rightHeight = checkHeight(root->right);
+    if (rightHeight == -1) return -1;  // If right subtree is unbalanced, propagate -1
+
+    if (abs(leftHeight - rightHeight) > 1) return -1;  // If unbalanced, return -1
+
+    return max(leftHeight, rightHeight) + 1;  // Return actual height
+}
+
+bool BalancedBt(TreeNode* root) {
+    return checkHeight(root) != -1;  // If checkHeight returns -1, tree is unbalanced
+}
 
 
 How do you check if two binary trees are identical?

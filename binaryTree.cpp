@@ -3,6 +3,7 @@
 using namespace std;
 
 int count = 0;
+int maxi = INT_MIN;
 
 struct TreeNode{
     int data;
@@ -187,27 +188,27 @@ vector<int> leftView(TreeNode* root) {
     map<int, int> levelMap;
 
     while (!q.empty()) {
-        auto [root, level] = q.front();
+        auto [node, level] = q.front();
         q.pop();
 
         if (levelMap.find(level) == levelMap.end()) {
-            levelMap[level] = root->data;
-            result.push_back(root->data);
+            levelMap[level] = node->data;
+            result.push_back(node->data);
         }
 
-        if (root->left) q.push({root->left, level + 1});
-        if (root->right) q.push({root->right, level + 1});
+        if (node->left) q.push({node->left, level + 1});
+        if (node->right) q.push({node->right, level + 1});
     }
 
     return result;
 }
 
 // Function to get the Right View of the Binary Tree
-vector<int> rightView(Node* root) {
+vector<int> rightView(TreeNode* root) {
     if (!root) return {};
 
     vector<int> result;
-    queue<pair<Node*, int>> q;
+    queue<pair<TreeNode*, int>> q;
     q.push({root, 0});
     map<int, int> lastNodeAtLevel;
 
@@ -237,6 +238,43 @@ int sumAll(TreeNode* root,int &sum){
     sumAll(root->right, sum);
 
     return sum;
+}
+
+int diameter(TreeNode* root,int& maxi){
+    if(!root){
+        return 0;
+    }
+
+    int LH = diameter(root->left,maxi);
+    int RH = diameter(root->right,maxi);
+
+    maxi = max(maxi,LH+RH);
+
+    return 1 + max(LH,RH);
+}
+
+int diameterOfBt(TreeNode* root){
+   int maxi = INT_MIN;
+   diameter(root,maxi);
+   return maxi;
+}
+
+int checkHeight(TreeNode* root) {
+    if (!root) return 0;
+
+    int leftHeight = checkHeight(root->left);
+    if (leftHeight == -1) return -1;  // If left subtree is unbalanced, propagate -1
+
+    int rightHeight = checkHeight(root->right);
+    if (rightHeight == -1) return -1;  // If right subtree is unbalanced, propagate -1
+
+    if (abs(leftHeight - rightHeight) > 1) return -1;  // If unbalanced, return -1
+
+    return max(leftHeight, rightHeight) + 1;  // Return actual height
+}
+
+bool BalancedBt(TreeNode* root) {
+    return checkHeight(root) != -1;  // If checkHeight returns -1, tree is unbalanced
 }
 
 int main() {

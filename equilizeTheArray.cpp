@@ -13,7 +13,7 @@ int func(vector<int> a){
             max = it.second;
         }
     }
-    return (a.size() - max);
+    return (a.size() - max);    //if we remove the freq of occurence of the most repeated number. the difference will leave us with number of elements that should be removed to leave the most repeated number.
 }
 
 int main(){

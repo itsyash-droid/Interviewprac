@@ -8,7 +8,7 @@ void func(vector<vector<int>> &a) {
 
     for (int i = 0; i < n; i++) {
         diagonal_1 += a[i][i];         
-        diagonal_2 += a[i][n - 1 - i]; 
+        diagonal_2 += a[i][n - 1 - i]; //use n-1-i to compute j value for the given i and row size(n).
     }
 
    cout<<abs(diagonal_1-diagonal_2);

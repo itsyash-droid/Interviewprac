@@ -4,8 +4,8 @@
 using namespace std;
 
 int valleys(int steps,string path){
-    int level;
-    int Valleys;
+    int level = 0;
+    int Valleys = 0;
     for(char step:path){
         if(step == 'U'){
             level++;
@@ -17,6 +17,7 @@ int valleys(int steps,string path){
             Valleys++;
         }
     }
+    return Valleys;
 }
 
 int main(){
