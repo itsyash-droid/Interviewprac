@@ -1,3 +1,5 @@
+/*To be a palindrome it must cotain all even no of characters or just one odd character.
+Else it isn't a palindrome.*/
 #include <bits/stdc++.h>
 
 using namespace std;
